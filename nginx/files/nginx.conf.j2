@@ -1,0 +1,29 @@
+server {
+        listen       80;
+        server_name  {{ domain }};
+        root         /var/www/{{project}}/api/public;
+        client_max_body_size    50m;
+
+        if ($host !~ ^({{ domain }})$){
+            return 444;
+        }
+
+        #charset koi8-r;
+
+        access_log  /var/log/nginx/host.{{ project }}access.log  main;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+            rewrite (.*.gif|.*.png|.*.swf|.*.jpg|.*.js|.*.css|.*.ttf|.*.eot|.*.svg|.*.woff|.*.cur|.*.ico|.*.html)$  /$1 break;
+            rewrite (.*)$ /index.php/$1;
+        }
+
+        location ~ \.php {
+           fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+           fastcgi_index  index.php;
+           fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+           include        fastcgi_params;
+        }
+}

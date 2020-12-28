@@ -1,0 +1,5 @@
+- name: install
+  yum: name=supervisor state=latest
+
+- name: start service
+  service: name=supervisord state=started enable=yes

@@ -1,0 +1,8 @@
+yum_php_packages:
+  - php 
+  - php-mcrypt 
+  - php-cli 
+  - php-gd 
+  - php-curl 
+  - php-mysql 
+  - php-ldap 

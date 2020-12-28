@@ -1,0 +1,54 @@
+---
+
+- name: Install requires package with yum
+  become: true
+  yum:
+    name:
+      - libselinux-python
+      - epel-release
+  register: task_result
+  until: task_result is success
+  retries: 3
+  delay: 10
+
+- name: Install the remi and ius repo from remote repo
+  become: true
+  yum:
+    name:
+      - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+      - "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+  register: task_result
+  until: task_result is success
+  retries: 3
+  delay: 10
+
+- name: Upgrade all packages
+  become: true
+  yum:
+    name: "*"
+    state: latest
+  tags: skip_ansible_lint
+
+- name: Install PHP 7 Packages
+  become: true
+  yum:
+    name: "{{ yum_php_packages }}"
+    enablerepo: ius
+  register: task_result
+  until: task_result is success
+  retries: 3
+  delay: 10
+  when: yum_php_packages is defined
+  notify: restart php7-fpm on centos
+
+- name: conf
+  template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf backup=yes
+  notify: reload
+  tags: php_fpm_conf
+
+- name: Start php7-fpm on centos
+  become: true
+  service:
+    name: php-fpm
+    state: started
+    enabled: yes
