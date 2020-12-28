@@ -1,5 +1,7 @@
 - hosts: laravel
-  remote_user: root
+  remote_user: work
+  become: yes
+  become_user: root
   roles:
         - { role: nginx }
         - { role: php }
