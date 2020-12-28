@@ -1,8 +1,15 @@
 yum_php_packages:
-  - php 
-  - php-mcrypt 
-  - php-cli 
-  - php-gd 
-  - php-curl 
-  - php-mysql 
-  - php-ldap 
+  - php
+  - php-cli
+  - php-fpm
+  - php-mysqlnd
+  - php-zip
+  - php-devel
+  - php-gd
+  - php-mcrypt
+  - php-mbstring
+  - php-curl
+  - php-xml
+  - php-pear
+  - php-bcmath
+  - php-json

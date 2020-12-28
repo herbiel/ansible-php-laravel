@@ -22,13 +22,6 @@
   retries: 3
   delay: 10
 
-- name: Upgrade all packages
-  become: true
-  yum:
-    name: "*"
-    state: latest
-  tags: skip_ansible_lint
-
 - name: Install PHP 7 Packages
   become: true
   yum:

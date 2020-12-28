@@ -1,0 +1,6 @@
+- name: reload nignx
+  become: true
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
