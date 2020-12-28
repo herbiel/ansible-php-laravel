@@ -9,5 +9,9 @@
   notify: reload nginx
   tags: nginx_conf
 
-- name: start service
-  service: name=nginx state=started enable=yes
+- name: start nignx
+  become: true
+  service:
+    name: nginx
+    state: started
+    enabled: yes
